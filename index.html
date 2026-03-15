@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
 <title>Galleria — Maailman Mestariteokset</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&display=swap" rel="stylesheet">
@@ -288,6 +289,125 @@
   ::-webkit-scrollbar-track{background:var(--bg)}
   ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
   ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+  /* TRIP PLANNER BUTTON */
+  .trip-btn{
+    width:100%;padding:1rem 1.5rem;margin-top:0.5rem;
+    background:linear-gradient(135deg,var(--wine),var(--wine-light));
+    border:1px solid rgba(201,168,76,0.25);color:var(--gold-light);
+    font-family:'Playfair Display',serif;font-size:1rem;
+    cursor:pointer;transition:all 0.4s;display:flex;
+    align-items:center;justify-content:center;gap:0.8rem;
+    letter-spacing:0.05em;position:relative;overflow:hidden;
+  }
+  .trip-btn::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(201,168,76,0.1),transparent);
+    opacity:0;transition:opacity 0.4s;
+  }
+  .trip-btn:hover::before{opacity:1}
+  .trip-btn:hover{
+    border-color:var(--gold);
+    box-shadow:0 4px 30px rgba(201,168,76,0.15);
+    transform:translateY(-1px);
+  }
+  .trip-btn svg{width:20px;height:20px;fill:var(--gold-light);flex-shrink:0}
+
+  /* TRIP PANEL */
+  .trip-panel{
+    display:none;margin-top:1rem;
+    animation:tripIn 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .trip-panel.open{display:block}
+  @keyframes tripIn{
+    from{opacity:0;transform:translateY(15px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .trip-header{
+    display:flex;align-items:center;gap:1rem;
+    padding-bottom:1rem;border-bottom:1px solid rgba(201,168,76,0.12);
+    margin-bottom:1.2rem;
+  }
+  .trip-route{
+    display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;
+  }
+  .trip-city{
+    font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);
+  }
+  .trip-arrow{color:var(--gold);font-size:1.2rem}
+  .trip-flag{font-size:1.3rem}
+
+  .trip-cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;
+    margin-bottom:1.2rem;
+  }
+  @media(max-width:500px){.trip-cards{grid-template-columns:1fr}}
+  .trip-card{
+    padding:1rem;background:rgba(201,168,76,0.03);
+    border:1px solid rgba(201,168,76,0.1);
+    transition:border-color 0.3s;
+  }
+  .trip-card:hover{border-color:rgba(201,168,76,0.25)}
+  .trip-card-icon{font-size:1.4rem;margin-bottom:0.5rem}
+  .trip-card .tc-label{
+    font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:0.3rem;
+  }
+  .trip-card .tc-value{
+    font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--gold-light);
+  }
+  .trip-card .tc-note{
+    font-size:0.8rem;color:var(--cream-dim);margin-top:0.2rem;line-height:1.4;
+  }
+
+  .trip-total{
+    padding:1.2rem;
+    background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(107,45,62,0.08));
+    border:1px solid rgba(201,168,76,0.2);
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:1.2rem;flex-wrap:wrap;gap:0.5rem;
+  }
+  .trip-total-label{
+    font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .trip-total-price{
+    font-family:'Playfair Display',serif;font-size:1.6rem;
+    color:var(--gold);font-weight:700;
+  }
+  .trip-total-note{
+    width:100%;font-size:0.75rem;color:var(--text-dim);font-style:italic;
+  }
+  .trip-duration{
+    display:flex;align-items:center;gap:0.6rem;
+    padding:0.8rem 1rem;margin-bottom:1rem;
+    background:rgba(255,255,255,0.02);
+    border-left:2px solid var(--gold);
+  }
+  .trip-duration svg{width:16px;height:16px;fill:var(--gold);flex-shrink:0}
+  .trip-duration span{color:var(--cream-dim);font-size:0.9rem}
+
+  .trip-links{
+    display:flex;gap:0.6rem;flex-wrap:wrap;
+  }
+  .trip-link{
+    flex:1;min-width:120px;padding:0.75rem 1rem;text-align:center;
+    background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);
+    color:var(--gold-light);font-family:'Cormorant Garamond',serif;
+    font-size:0.85rem;text-decoration:none;
+    transition:all 0.3s;letter-spacing:0.08em;cursor:pointer;
+  }
+  .trip-link:hover{
+    background:rgba(201,168,76,0.12);border-color:var(--gold);
+    color:var(--cream);transform:translateY(-1px);
+  }
+  .trip-link-primary{
+    background:linear-gradient(135deg,var(--wine),var(--wine-light));
+    border-color:rgba(201,168,76,0.3);
+  }
+  .trip-link-primary:hover{
+    background:linear-gradient(135deg,var(--wine-light),var(--wine));
+  }
 </style>
 </head>
 <body>
@@ -367,6 +487,66 @@
           <span id="modalLocation"></span>
         </div>
       </div>
+
+      <!-- TRIP PLANNER -->
+      <button class="trip-btn" id="tripBtn" onclick="toggleTrip()">
+        <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+        Haluan nähdä tämän teoksen livenä!
+      </button>
+      <div class="trip-panel" id="tripPanel">
+        <div class="trip-header">
+          <div class="trip-route">
+            <span class="trip-flag">🇫🇮</span>
+            <span class="trip-city">Helsinki</span>
+            <span class="trip-arrow">✈</span>
+            <span class="trip-city" id="tripDest"></span>
+            <span class="trip-flag" id="tripFlag"></span>
+          </div>
+        </div>
+        <div class="trip-duration" id="tripDuration">
+          <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+          <span id="tripFlightTime"></span>
+        </div>
+        <div class="trip-cards">
+          <div class="trip-card">
+            <div class="trip-card-icon">✈️</div>
+            <div class="tc-label">Lennot (meno-paluu)</div>
+            <div class="tc-value" id="tripFlight"></div>
+            <div class="tc-note" id="tripAirport"></div>
+          </div>
+          <div class="trip-card">
+            <div class="trip-card-icon">🏨</div>
+            <div class="tc-label">Hotelli (2 yötä)</div>
+            <div class="tc-value" id="tripHotel"></div>
+            <div class="tc-note" id="tripHotelNote"></div>
+          </div>
+          <div class="trip-card">
+            <div class="trip-card-icon">🎟️</div>
+            <div class="tc-label">Museon pääsylippu</div>
+            <div class="tc-value" id="tripTicket"></div>
+            <div class="tc-note" id="tripMuseum"></div>
+          </div>
+          <div class="trip-card">
+            <div class="trip-card-icon">🍽️</div>
+            <div class="tc-label">Ruoka & liikkuminen</div>
+            <div class="tc-value" id="tripFood"></div>
+            <div class="tc-note">Arvio 2 päivälle</div>
+          </div>
+        </div>
+        <div class="trip-total">
+          <div>
+            <div class="trip-total-label">Arvioitu kokonaisbudjetti</div>
+            <div class="trip-total-price" id="tripTotal"></div>
+          </div>
+          <div class="trip-total-note">* Arviot perustuvat keskihintoihin Helsingistä. Hinnat vaihtelevat kauden ja saatavuuden mukaan.</div>
+        </div>
+        <div class="trip-links">
+          <a class="trip-link trip-link-primary" id="tripFlightLink" href="" target="_blank" rel="noopener">🔍 Hae lennot</a>
+          <a class="trip-link" id="tripHotelLink" href="" target="_blank" rel="noopener">🏨 Hae hotellit</a>
+          <a class="trip-link" id="tripMuseumLink" href="" target="_blank" rel="noopener">🎟️ Museon sivut</a>
+          <a class="trip-link" id="tripMapLink" href="" target="_blank" rel="noopener">🗺️ Reitti kartalla</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -384,7 +564,8 @@ const artworks = [
     lat:48.8606,lng:2.3376,
     desc:"Maailman tunnetuin maalaus, joka kuvaa naista salaperäisellä hymyllä. Leonardo käytti sfumato-tekniikkaa luodakseen pehmeät, hämyiset ääriviivat.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
-    badge:"Mestariluokka"
+    badge:"Mestariluokka",
+    trip:{city:"Pariisi",country:"Ranska",flag:"🇫🇷",airport:"CDG",flightH:"3h 15min",flightPrice:"120–280",hotel:"140–250",ticket:"22",ticketNote:"Louvre — auki ma–su paitsi ti",food:"100–160",museumUrl:"https://www.louvre.fr",iata:"CDG"}
   },
   {
     title:"Tähtitaivas",
@@ -397,7 +578,8 @@ const artworks = [
     lat:40.7614,lng:-73.9776,
     desc:"Van Goghin ikoninen maalaus, joka kuvaa pyörteistä yötaivasta Saint-Rémy-de-Provencen mielisairaalasta. Teos ilmentää taiteilijan intensiivistä tunnemaailmaa.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
-    badge:"Ikoninen"
+    badge:"Ikoninen",
+    trip:{city:"New York",country:"USA",flag:"🇺🇸",airport:"JFK",flightH:"9h 30min",flightPrice:"350–650",hotel:"200–400",ticket:"30",ticketNote:"MoMA — auki päivittäin 10:30–17:30",food:"150–250",museumUrl:"https://www.moma.org",iata:"JFK"}
   },
   {
     title:"Helmenkorvanainen tyttö",
@@ -410,7 +592,8 @@ const artworks = [
     lat:52.0804,lng:4.3142,
     desc:"Vermeerin mestariteos, jota kutsutaan usein 'Pohjoisen Mona Lisaksi'. Tyttö katselee olkansa yli suu raollaan, huulillaan valon pilkahdus.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg",
-    badge:"Mestariluokka"
+    badge:"Mestariluokka",
+    trip:{city:"Haag",country:"Alankomaat",flag:"🇳🇱",airport:"AMS",flightH:"2h 40min",flightPrice:"100–220",hotel:"120–220",ticket:"19",ticketNote:"Mauritshuis — auki ma–su 10–18",food:"90–140",museumUrl:"https://www.mauritshuis.nl",iata:"AMS"}
   },
   {
     title:"Aadamin luominen",
@@ -423,7 +606,8 @@ const artworks = [
     lat:41.9029,lng:12.4545,
     desc:"Sikstuksen kappelin kuuluisin osa: Jumala ojentaa sormensa kohti Aadamia. Ihmiskunnan luomisen ikoninen esitys.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg/1280px-Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg",
-    badge:"Renessanssi"
+    badge:"Renessanssi",
+    trip:{city:"Rooma",country:"Italia",flag:"🇮🇹",airport:"FCO",flightH:"3h 30min",flightPrice:"130–290",hotel:"120–240",ticket:"17",ticketNote:"Vatikaanin museot — varaa etukäteen!",food:"80–140",museumUrl:"https://www.museivaticani.va",iata:"FCO"}
   },
   {
     title:"Suuri aalto Kanagawan edustalla",
@@ -436,20 +620,22 @@ const artworks = [
     lat:40.7794,lng:-73.9632,
     desc:"Japanilaisen taiteen tunnetuin teos kuvaa valtavaa aaltoa, jonka taustalla näkyy Fuji-vuori. Osa 'Fujin 36 näkymää' -sarjaa.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1280px-Tsunami_by_hokusai_19th_century.jpg",
-    badge:"Ikoninen"
+    badge:"Ikoninen",
+    trip:{city:"New York",country:"USA",flag:"🇺🇸",airport:"JFK",flightH:"9h 30min",flightPrice:"350–650",hotel:"200–400",ticket:"30",ticketNote:"The Met — suositeltu pääsymaksu",food:"150–250",museumUrl:"https://www.metmuseum.org",iata:"JFK"}
   },
   {
-    title:"Muiston pysyvyys",
-    artist:"Salvador Dalí",
-    year:"1931",
+    title:"Suudelma",
+    artist:"Gustav Klimt",
+    year:"1907–1908",
     style:"Modernismi",
-    value:"Korvaamaton (arv. 200+ milj. $)",
-    technique:"Öljy kankaalle",
-    location:"MoMA, New York, USA",
-    lat:40.7614,lng:-73.9776,
-    desc:"Dalín surrealistinen mestariteos sulavista kelloista, joka haastaa käsityksemme ajasta. Maalaus syntyi kuumana iltapäivänä Cadaquésin rannalla.",
-    img:"https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
-    badge:"Surrealismi"
+    value:"Korvaamaton (arv. 400+ milj. $)",
+    technique:"Öljy ja kultalehti kankaalle",
+    location:"Belvedere, Wien, Itävalta",
+    lat:48.1915,lng:16.3808,
+    desc:"Klimtin kultakauden mestariteos kuvaa rakastavien parin suudelmaa kultalehden ja koristeellisten kuvioiden keskellä. Art nouveau -tyylin huipentuma.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/800px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg",
+    badge:"Jugend",
+    trip:{city:"Wien",country:"Itävalta",flag:"🇦🇹",airport:"VIE",flightH:"2h 30min",flightPrice:"110–240",hotel:"110–200",ticket:"18.50",ticketNote:"Belvedere — auki päivittäin 10–18",food:"80–130",museumUrl:"https://www.belvedere.at",iata:"VIE"}
   },
   {
     title:"Yövartio",
@@ -462,7 +648,8 @@ const artworks = [
     lat:52.3600,lng:4.8852,
     desc:"Rembrandtin suurin ja kuuluisin ryhmämuotokuva esittää Amsterdamin kansalaiskaartin liikkeessä. Teoksen dramaattinen valaistus on uraauurtava.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-_HD.jpg/1280px-The_Night_Watch_-_HD.jpg",
-    badge:"Mestariluokka"
+    badge:"Mestariluokka",
+    trip:{city:"Amsterdam",country:"Alankomaat",flag:"🇳🇱",airport:"AMS",flightH:"2h 40min",flightPrice:"100–220",hotel:"140–260",ticket:"22.50",ticketNote:"Rijksmuseum — auki päivittäin 9–17",food:"100–150",museumUrl:"https://www.rijksmuseum.nl",iata:"AMS"}
   },
   {
     title:"Venuksen syntymä",
@@ -475,7 +662,8 @@ const artworks = [
     lat:43.7678,lng:11.2556,
     desc:"Botticellin mestariteos kuvaa jumalatar Venusta nousemassa merestä simpukankuorella. Yksi renessanssin ikonisimmista teoksista.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/1280px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
-    badge:"Renessanssi"
+    badge:"Renessanssi",
+    trip:{city:"Firenze",country:"Italia",flag:"🇮🇹",airport:"FLR",flightH:"3h 45min",flightPrice:"150–310",hotel:"120–230",ticket:"25",ticketNote:"Uffizi — varaa liput etukäteen verkosta",food:"80–130",museumUrl:"https://www.uffizi.it",iata:"FLR"}
   },
   {
     title:"Lumpeenkukat",
@@ -488,7 +676,8 @@ const artworks = [
     lat:41.8796,lng:-87.6237,
     desc:"Monet maalasi yli 250 lumpeenmestariteosta Givernyn puutarhassaan. Teosten pehmeys ja valon leikki ovat impressionismin huipentuma.",
     img:"https://upload.wikimedia.org/wikipedia/commons/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg",
-    badge:"Impressionismi"
+    badge:"Impressionismi",
+    trip:{city:"Chicago",country:"USA",flag:"🇺🇸",airport:"ORD",flightH:"10h 15min",flightPrice:"380–700",hotel:"180–350",ticket:"25–35",ticketNote:"Art Institute of Chicago — auki to–ma",food:"140–220",museumUrl:"https://www.artic.edu",iata:"ORD"}
   },
   {
     title:"Huuto",
@@ -501,20 +690,22 @@ const artworks = [
     lat:59.9065,lng:10.7546,
     desc:"Munchin ekspressionistinen ikoni kuvaa ahdistunutta hahmoa kädet kasvoilla hehkuvan oranssin taivaan alla. Nykyajan ahdistuksen symboli.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
-    badge:"Ikoninen"
+    badge:"Ikoninen",
+    trip:{city:"Oslo",country:"Norja",flag:"🇳🇴",airport:"OSL",flightH:"1h 20min",flightPrice:"60–150",hotel:"130–230",ticket:"18",ticketNote:"MUNCH-museo — auki päivittäin 10–21",food:"120–180",museumUrl:"https://www.munchmuseet.no",iata:"OSL"}
   },
   {
-    title:"Tanssi",
-    artist:"Henri Matisse",
-    year:"1910",
+    title:"Vaeltaja sumumeren yllä",
+    artist:"Caspar David Friedrich",
+    year:"n. 1818",
     style:"Modernismi",
-    value:"Korvaamaton (arv. 200+ milj. $)",
+    value:"Korvaamaton (arv. 100+ milj. $)",
     technique:"Öljy kankaalle",
-    location:"Eremitaaši, Pietari, Venäjä",
-    lat:59.9398,lng:30.3146,
-    desc:"Matissen rohkea fauvistinen teos viidestä tanssivasta hahmosta punaisina sinistä ja vihreää vasten. Liikkeen ja ilon symboli.",
-    img:"https://upload.wikimedia.org/wikipedia/en/a/a7/Matisse-Dance.jpg",
-    badge:"Favismi"
+    location:"Hamburger Kunsthalle, Hampuri, Saksa",
+    lat:53.5572,lng:10.0003,
+    desc:"Romantiikan aikakauden ikoni kuvaa miestä seisomassa kallion reunalla sumun peittämän maiseman yllä. Ihmisen ja luonnon suhteen mestariteos.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/800px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg",
+    badge:"Romantiikka",
+    trip:{city:"Hampuri",country:"Saksa",flag:"🇩🇪",airport:"HAM",flightH:"1h 50min",flightPrice:"80–180",hotel:"100–190",ticket:"16",ticketNote:"Hamburger Kunsthalle — ti–su 10–18",food:"70–120",museumUrl:"https://www.hamburger-kunsthalle.de",iata:"HAM"}
   },
   {
     title:"Impressio: Auringonnousu",
@@ -527,7 +718,8 @@ const artworks = [
     lat:48.8582,lng:2.2665,
     desc:"Teos, joka antoi nimen kokonaiselle taidekaudelle. Monet maalasi Le Havren sataman sumuisena aamuna — impressionismin alku.",
     img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg",
-    badge:"Historiallinen"
+    badge:"Historiallinen",
+    trip:{city:"Pariisi",country:"Ranska",flag:"🇫🇷",airport:"CDG",flightH:"3h 15min",flightPrice:"120–280",hotel:"140–250",ticket:"14",ticketNote:"Musée Marmottan — ti–su 10–18",food:"100–160",museumUrl:"https://www.marmottan.fr",iata:"CDG"}
   }
 ];
 
@@ -542,7 +734,7 @@ function renderGallery(filter='all'){
     card.style.animationDelay=`${i*0.06}s`;
     card.innerHTML=`
       <div style="position:relative;overflow:hidden">
-        <img src="${art.img}" alt="${art.title}" loading="lazy">
+        <img src="${art.img}" alt="${art.title}" loading="lazy" onerror="this.onerror=null;this.style.cssText='width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a1a,#2a2020);';this.outerHTML='<div style=\\'width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a1a1a,#2a2020);color:#c9a84c;font-family:Playfair Display,serif;font-size:1.2rem;text-align:center;padding:2rem\\'>'+String.fromCodePoint(0x1F3A8)+'<br>${art.title}</div>'">
         <span class="art-card-badge">${art.badge}</span>
       </div>
       <div class="art-card-info">
@@ -571,8 +763,18 @@ const overlay=document.getElementById('modalOverlay');
 const modal=document.getElementById('modal');
 
 function openModal(art){
-  document.getElementById('modalImg').src=art.img;
-  document.getElementById('modalImg').alt=art.title;
+  const mImg=document.getElementById('modalImg');
+  // Reset if previously replaced
+  const mImgParent=document.querySelector('.modal-image');
+  if(!document.getElementById('modalImg')){
+    const newImg=document.createElement('img');newImg.id='modalImg';
+    newImg.style.cssText='max-width:100%;max-height:65vh;object-fit:contain;position:relative;z-index:1;box-shadow:0 10px 60px rgba(0,0,0,0.5)';
+    mImgParent.innerHTML='';mImgParent.appendChild(newImg);
+  }
+  const img=document.getElementById('modalImg');
+  img.src=art.img;
+  img.alt=art.title;
+  img.onerror=function(){this.onerror=null;this.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><rect fill="%231a1a1a" width="300" height="400"/><text x="150" y="180" text-anchor="middle" fill="%23c9a84c" font-family="serif" font-size="48">🎨</text><text x="150" y="230" text-anchor="middle" fill="%23c9a84c" font-family="serif" font-size="16">Kuvaa ei saatavilla</text></svg>');};
   document.getElementById('modalTitle').textContent=art.title;
   document.getElementById('modalArtist').textContent=art.artist;
   document.getElementById('modalYear').textContent=art.year;
@@ -582,8 +784,69 @@ function openModal(art){
   document.getElementById('modalDesc').textContent=art.desc;
   document.getElementById('modalLocation').textContent=art.location;
   document.getElementById('modalMap').src=`https://www.openstreetmap.org/export/embed.html?bbox=${art.lng-0.01}%2C${art.lat-0.008}%2C${art.lng+0.01}%2C${art.lat+0.008}&layer=mapnik&marker=${art.lat}%2C${art.lng}`;
+
+  // Reset & populate trip planner
+  document.getElementById('tripPanel').classList.remove('open');
+  document.getElementById('tripBtn').innerHTML='<svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg> Haluan nähdä tämän teoksen livenä!';
+  currentTrip = art.trip;
+  currentArt = art;
+
   overlay.classList.add('open');
   document.body.style.overflow='hidden';
+}
+
+let currentTrip = null;
+let currentArt = null;
+
+function toggleTrip(){
+  const panel = document.getElementById('tripPanel');
+  const btn = document.getElementById('tripBtn');
+  if(panel.classList.contains('open')){
+    panel.classList.remove('open');
+    btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg> Haluan nähdä tämän teoksen livenä!';
+    return;
+  }
+  const t = currentTrip;
+  const a = currentArt;
+
+  document.getElementById('tripDest').textContent = t.city;
+  document.getElementById('tripFlag').textContent = t.flag;
+  document.getElementById('tripFlightTime').textContent = `Lentoaika Helsingistä: ${t.flightH}`;
+  document.getElementById('tripFlight').textContent = `${t.flightPrice} €`;
+  document.getElementById('tripAirport').textContent = `HEL → ${t.iata}`;
+  document.getElementById('tripHotel').textContent = `${t.hotel} €`;
+  document.getElementById('tripHotelNote').textContent = `Keskitason hotelli, ${t.city}`;
+  document.getElementById('tripTicket').textContent = `${t.ticket} €`;
+  document.getElementById('tripMuseum').textContent = t.ticketNote;
+  document.getElementById('tripFood').textContent = `${t.food} €`;
+
+  // Calculate total estimate
+  const fParts = t.flightPrice.split('–').map(Number);
+  const hParts = t.hotel.split('–').map(Number);
+  const tParts = String(t.ticket).split('–').map(Number);
+  const fdParts = t.food.split('–').map(Number);
+  const minTotal = fParts[0] + hParts[0] + tParts[0] + fdParts[0];
+  const maxTotal = (fParts[1]||fParts[0]) + (hParts[1]||hParts[0]) + (tParts[1]||tParts[0]) + (fdParts[1]||fdParts[0]);
+  document.getElementById('tripTotal').textContent = `${minTotal}–${maxTotal} €`;
+
+  // Build booking links
+  const dateFrom = new Date();
+  dateFrom.setDate(dateFrom.getDate()+30);
+  const dateTo = new Date(dateFrom);
+  dateTo.setDate(dateTo.getDate()+2);
+  const df = dateFrom.toISOString().split('T')[0];
+  const dt = dateTo.toISOString().split('T')[0];
+
+  document.getElementById('tripFlightLink').href = `https://www.google.com/travel/flights?q=flights+from+Helsinki+to+${encodeURIComponent(t.city)}+${df}`;
+  document.getElementById('tripHotelLink').href = `https://www.booking.com/searchresults.html?ss=${encodeURIComponent(t.city)}&checkin=${df}&checkout=${dt}&group_adults=1`;
+  document.getElementById('tripMuseumLink').href = t.museumUrl;
+  document.getElementById('tripMapLink').href = `https://www.google.com/maps/dir/Helsinki+Airport/${encodeURIComponent(a.location)}`;
+
+  panel.classList.add('open');
+  btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> Sulje matkasuunnitelma';
+
+  // Scroll trip panel into view
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
 }
 
 document.getElementById('modalClose').addEventListener('click',()=>{
