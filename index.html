@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galleria — Maailman Mestariteokset</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+    --gold:#c9a84c;--gold-light:#e8d598;--gold-dark:#8a6d2b;
+    --cream:#f5f0e8;--cream-dim:#bdb5a7;
+    --text:#e8e2d6;--text-dim:#8a8478;
+    --wine:#6b2d3e;--wine-light:#8a3d52;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:'Cormorant Garamond',serif;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  /* HERO */
+  .hero{
+    position:relative;height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 20% 80%, rgba(107,45,62,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, rgba(201,168,76,0.04) 0%, transparent 60%);
+    z-index:0;
+  }
+  .hero-grain{
+    position:absolute;inset:0;opacity:0.03;z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:128px 128px;
+  }
+  .hero-line{
+    position:absolute;top:0;left:50%;width:1px;height:30vh;
+    background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+    z-index:2;opacity:0;
+    animation:lineFade 2s 0.5s forwards;
+  }
+  @keyframes lineFade{to{opacity:0.4}}
+  .hero-content{position:relative;z-index:3}
+  .hero-sub{
+    font-family:'Cormorant Garamond',serif;font-size:0.85rem;
+    letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);
+    opacity:0;animation:fadeUp 1.2s 0.3s forwards;
+    margin-bottom:1.5rem;
+  }
+  .hero h1{
+    font-family:'Playfair Display',serif;font-weight:900;
+    font-size:clamp(3rem,8vw,7rem);line-height:0.95;
+    color:var(--cream);letter-spacing:-0.02em;
+    opacity:0;animation:fadeUp 1.2s 0.6s forwards;
+  }
+  .hero h1 em{
+    font-style:italic;font-weight:400;color:var(--gold);
+    font-family:'Bodoni Moda',serif;
+  }
+  .hero-desc{
+    font-size:1.15rem;color:var(--cream-dim);max-width:500px;
+    margin:2rem auto 0;line-height:1.7;font-weight:300;
+    opacity:0;animation:fadeUp 1.2s 0.9s forwards;
+  }
+  .scroll-hint{
+    position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+    z-index:3;display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+    opacity:0;animation:fadeUp 1.2s 1.5s forwards;
+  }
+  .scroll-hint span{
+    font-size:0.7rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--text-dim);
+  }
+  .scroll-line{
+    width:1px;height:40px;background:var(--gold);opacity:0.5;
+    animation:scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse{
+    0%,100%{transform:scaleY(1);opacity:0.5}
+    50%{transform:scaleY(0.4);opacity:0.2}
+  }
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  /* GALLERY SECTION */
+  .gallery-section{
+    padding:6rem 2rem;max-width:1400px;margin:0 auto;
+  }
+  .section-header{
+    text-align:center;margin-bottom:5rem;position:relative;
+  }
+  .section-header::after{
+    content:'';display:block;width:60px;height:1px;
+    background:var(--gold);margin:1.5rem auto 0;
+  }
+  .section-header h2{
+    font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);
+    font-weight:700;color:var(--cream);
+  }
+  .section-header p{
+    color:var(--text-dim);font-size:1.05rem;margin-top:0.8rem;font-weight:300;
+  }
+
+  /* FILTER TABS */
+  .filters{
+    display:flex;justify-content:center;gap:0.5rem;flex-wrap:wrap;
+    margin-bottom:3rem;
+  }
+  .filter-btn{
+    background:transparent;border:1px solid var(--text-dim);
+    color:var(--text-dim);padding:0.5rem 1.4rem;
+    font-family:'Cormorant Garamond',serif;font-size:0.9rem;
+    letter-spacing:0.1em;cursor:pointer;transition:all 0.4s;
+    border-radius:0;
+  }
+  .filter-btn:hover,.filter-btn.active{
+    border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.06);
+  }
+
+  /* MASONRY GRID */
+  .masonry{
+    columns:3;column-gap:1.5rem;
+  }
+  @media(max-width:1024px){.masonry{columns:2}}
+  @media(max-width:600px){.masonry{columns:1}}
+
+  .art-card{
+    break-inside:avoid;margin-bottom:1.5rem;
+    position:relative;cursor:pointer;overflow:hidden;
+    background:var(--bg2);
+    border:1px solid rgba(201,168,76,0.08);
+    transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    opacity:0;animation:cardIn 0.8s forwards;
+  }
+  .art-card:nth-child(2){animation-delay:0.1s}
+  .art-card:nth-child(3){animation-delay:0.15s}
+  .art-card:nth-child(4){animation-delay:0.2s}
+  .art-card:nth-child(5){animation-delay:0.25s}
+  .art-card:nth-child(6){animation-delay:0.3s}
+  .art-card:nth-child(7){animation-delay:0.35s}
+  .art-card:nth-child(8){animation-delay:0.4s}
+  .art-card:nth-child(9){animation-delay:0.45s}
+  .art-card:nth-child(10){animation-delay:0.5s}
+  .art-card:nth-child(11){animation-delay:0.55s}
+  .art-card:nth-child(12){animation-delay:0.6s}
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(40px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .art-card:hover{
+    border-color:rgba(201,168,76,0.3);
+    transform:translateY(-4px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.4),0 0 40px rgba(201,168,76,0.05);
+  }
+  .art-card img{
+    width:100%;display:block;transition:transform 1s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .art-card:hover img{transform:scale(1.03)}
+  .art-card-info{
+    padding:1.2rem 1.4rem;
+  }
+  .art-card-info h3{
+    font-family:'Playfair Display',serif;font-size:1.1rem;
+    color:var(--cream);font-weight:700;line-height:1.3;
+  }
+  .art-card-info .artist{
+    color:var(--gold);font-size:0.9rem;margin-top:0.3rem;font-style:italic;
+  }
+  .art-card-info .year{
+    color:var(--text-dim);font-size:0.8rem;margin-top:0.2rem;
+  }
+  .art-card-badge{
+    position:absolute;top:1rem;right:1rem;
+    background:rgba(10,10,10,0.8);backdrop-filter:blur(10px);
+    padding:0.3rem 0.8rem;font-size:0.7rem;
+    letter-spacing:0.15em;text-transform:uppercase;
+    color:var(--gold);border:1px solid rgba(201,168,76,0.2);
+  }
+
+  /* MODAL OVERLAY */
+  .modal-overlay{
+    position:fixed;inset:0;z-index:1000;
+    background:rgba(5,5,5,0.92);backdrop-filter:blur(20px);
+    display:none;align-items:center;justify-content:center;
+    padding:2rem;opacity:0;transition:opacity 0.4s;
+  }
+  .modal-overlay.open{display:flex;opacity:1}
+  .modal{
+    background:var(--bg2);border:1px solid rgba(201,168,76,0.15);
+    max-width:1100px;width:100%;max-height:90vh;overflow-y:auto;
+    display:grid;grid-template-columns:1fr 1fr;
+    position:relative;
+    animation:modalIn 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  @media(max-width:800px){.modal{grid-template-columns:1fr;max-height:95vh}}
+  @keyframes modalIn{
+    from{opacity:0;transform:scale(0.95) translateY(20px)}
+    to{opacity:1;transform:scale(1) translateY(0)}
+  }
+  .modal-close{
+    position:absolute;top:1.2rem;right:1.5rem;z-index:10;
+    background:none;border:none;color:var(--cream-dim);
+    font-size:1.8rem;cursor:pointer;transition:color 0.3s;
+    line-height:1;font-family:'Cormorant Garamond',serif;
+  }
+  .modal-close:hover{color:var(--gold)}
+  .modal-image{
+    background:var(--bg);display:flex;align-items:center;justify-content:center;
+    padding:2rem;position:relative;overflow:hidden;
+    min-height:400px;
+  }
+  .modal-image::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(201,168,76,0.03),transparent 70%);
+  }
+  .modal-image img{
+    max-width:100%;max-height:65vh;object-fit:contain;
+    position:relative;z-index:1;
+    box-shadow:0 10px 60px rgba(0,0,0,0.5);
+  }
+  .modal-details{
+    padding:3rem 2.5rem;display:flex;flex-direction:column;gap:1.5rem;
+    overflow-y:auto;
+  }
+  .modal-details h2{
+    font-family:'Playfair Display',serif;font-size:1.8rem;
+    color:var(--cream);font-weight:700;line-height:1.2;
+  }
+  .modal-artist{
+    font-size:1.15rem;color:var(--gold);font-style:italic;
+  }
+  .modal-meta{
+    display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  }
+  .meta-item{
+    padding:1rem;background:rgba(255,255,255,0.02);
+    border:1px solid rgba(201,168,76,0.08);
+  }
+  .meta-item .label{
+    font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:0.4rem;
+  }
+  .meta-item .value{
+    font-family:'Playfair Display',serif;font-size:1rem;color:var(--cream);
+  }
+  .modal-description{
+    color:var(--cream-dim);line-height:1.8;font-size:1rem;font-weight:300;
+    border-top:1px solid rgba(201,168,76,0.1);
+    padding-top:1.2rem;
+  }
+  .modal-map-title{
+    font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;
+    color:var(--text-dim);margin-bottom:0.5rem;
+  }
+  .modal-map{
+    width:100%;height:200px;border:1px solid rgba(201,168,76,0.15);
+    filter:grayscale(0.6) brightness(0.7) contrast(1.1);
+    transition:filter 0.4s;
+  }
+  .modal-map:hover{filter:grayscale(0.2) brightness(0.8) contrast(1.05)}
+  .modal-location{
+    display:flex;align-items:center;gap:0.5rem;
+    color:var(--gold-light);font-size:0.95rem;margin-top:0.3rem;
+  }
+  .modal-location svg{width:16px;height:16px;fill:var(--gold)}
+
+  /* FOOTER */
+  footer{
+    text-align:center;padding:4rem 2rem;
+    border-top:1px solid rgba(201,168,76,0.08);
+    color:var(--text-dim);font-size:0.85rem;
+    letter-spacing:0.1em;
+  }
+  footer span{color:var(--gold)}
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <p class="hero-sub">Kokoelma maailman mestariteoksista</p>
+    <h1>G A L L E R I A<br><em>Ikuista Taidetta</em></h1>
+    <p class="hero-desc">Astu sisään virtuaaliseen galleriaan ja tutustu ihmiskunnan merkittävimpiin taideaarteisiin vuosisatojen varrelta.</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Selaa alaspäin</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="section-header">
+    <h2>Mestariteokset</h2>
+    <p>Ikonisia teoksia renessanssista moderniin taiteeseen</p>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Kaikki</button>
+    <button class="filter-btn" data-filter="Renessanssi">Renessanssi</button>
+    <button class="filter-btn" data-filter="Barokki">Barokki</button>
+    <button class="filter-btn" data-filter="Impressionismi">Impressionismi</button>
+    <button class="filter-btn" data-filter="Jälki-impressionismi">Jälki-impressionismi</button>
+    <button class="filter-btn" data-filter="Modernismi">Modernismi</button>
+  </div>
+  <div class="masonry" id="masonry"></div>
+</section>
+
+<footer>
+  <p><span>GALLERIA</span> — Virtuaalinen taidemuseo &copy; 2026</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <div class="modal-image">
+      <img id="modalImg" src="" alt="">
+    </div>
+    <div class="modal-details">
+      <div>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-artist" id="modalArtist"></p>
+      </div>
+      <div class="modal-meta">
+        <div class="meta-item">
+          <div class="label">Vuosiluku</div>
+          <div class="value" id="modalYear"></div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Taidetyyli</div>
+          <div class="value" id="modalStyle"></div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Arvioitu arvo</div>
+          <div class="value" id="modalValue"></div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Tekniikka</div>
+          <div class="value" id="modalTechnique"></div>
+        </div>
+      </div>
+      <p class="modal-description" id="modalDesc"></p>
+      <div>
+        <p class="modal-map-title">Taideteoksen sijainti</p>
+        <iframe class="modal-map" id="modalMap" src="" frameborder="0" loading="lazy"></iframe>
+        <div class="modal-location">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          <span id="modalLocation"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const artworks = [
+  {
+    title:"Mona Lisa",
+    artist:"Leonardo da Vinci",
+    year:"1503–1519",
+    style:"Renessanssi",
+    value:"Korvaamaton (yli 860 milj. $)",
+    technique:"Öljy poppelipuulle",
+    location:"Louvre, Pariisi, Ranska",
+    lat:48.8606,lng:2.3376,
+    desc:"Maailman tunnetuin maalaus, joka kuvaa naista salaperäisellä hymyllä. Leonardo käytti sfumato-tekniikkaa luodakseen pehmeät, hämyiset ääriviivat.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+    badge:"Mestariluokka"
+  },
+  {
+    title:"Tähtitaivas",
+    artist:"Vincent van Gogh",
+    year:"1889",
+    style:"Jälki-impressionismi",
+    value:"Korvaamaton (arv. 200+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"MoMA, New York, USA",
+    lat:40.7614,lng:-73.9776,
+    desc:"Van Goghin ikoninen maalaus, joka kuvaa pyörteistä yötaivasta Saint-Rémy-de-Provencen mielisairaalasta. Teos ilmentää taiteilijan intensiivistä tunnemaailmaa.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+    badge:"Ikoninen"
+  },
+  {
+    title:"Helmenkorvanainen tyttö",
+    artist:"Johannes Vermeer",
+    year:"n. 1665",
+    style:"Barokki",
+    value:"Korvaamaton (arv. 200+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"Mauritshuis, Haag, Alankomaat",
+    lat:52.0804,lng:4.3142,
+    desc:"Vermeerin mestariteos, jota kutsutaan usein 'Pohjoisen Mona Lisaksi'. Tyttö katselee olkansa yli suu raollaan, huulillaan valon pilkahdus.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg",
+    badge:"Mestariluokka"
+  },
+  {
+    title:"Aadamin luominen",
+    artist:"Michelangelo",
+    year:"n. 1512",
+    style:"Renessanssi",
+    value:"Korvaamaton",
+    technique:"Freskotekniikka",
+    location:"Sikstuksen kappeli, Vatikaani",
+    lat:41.9029,lng:12.4545,
+    desc:"Sikstuksen kappelin kuuluisin osa: Jumala ojentaa sormensa kohti Aadamia. Ihmiskunnan luomisen ikoninen esitys.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg/1280px-Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg",
+    badge:"Renessanssi"
+  },
+  {
+    title:"Suuri aalto Kanagawan edustalla",
+    artist:"Katsushika Hokusai",
+    year:"n. 1831",
+    style:"Modernismi",
+    value:"Arv. 2–3 milj. $ (tuloste)",
+    technique:"Puupiirros",
+    location:"Metropolitan Museum, New York, USA",
+    lat:40.7794,lng:-73.9632,
+    desc:"Japanilaisen taiteen tunnetuin teos kuvaa valtavaa aaltoa, jonka taustalla näkyy Fuji-vuori. Osa 'Fujin 36 näkymää' -sarjaa.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1280px-Tsunami_by_hokusai_19th_century.jpg",
+    badge:"Ikoninen"
+  },
+  {
+    title:"Muiston pysyvyys",
+    artist:"Salvador Dalí",
+    year:"1931",
+    style:"Modernismi",
+    value:"Korvaamaton (arv. 200+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"MoMA, New York, USA",
+    lat:40.7614,lng:-73.9776,
+    desc:"Dalín surrealistinen mestariteos sulavista kelloista, joka haastaa käsityksemme ajasta. Maalaus syntyi kuumana iltapäivänä Cadaquésin rannalla.",
+    img:"https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
+    badge:"Surrealismi"
+  },
+  {
+    title:"Yövartio",
+    artist:"Rembrandt van Rijn",
+    year:"1642",
+    style:"Barokki",
+    value:"Korvaamaton (arv. 500+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"Rijksmuseum, Amsterdam, Alankomaat",
+    lat:52.3600,lng:4.8852,
+    desc:"Rembrandtin suurin ja kuuluisin ryhmämuotokuva esittää Amsterdamin kansalaiskaartin liikkeessä. Teoksen dramaattinen valaistus on uraauurtava.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-_HD.jpg/1280px-The_Night_Watch_-_HD.jpg",
+    badge:"Mestariluokka"
+  },
+  {
+    title:"Venuksen syntymä",
+    artist:"Sandro Botticelli",
+    year:"n. 1485",
+    style:"Renessanssi",
+    value:"Korvaamaton (arv. 500+ milj. $)",
+    technique:"Tempera kankaalle",
+    location:"Uffizi, Firenze, Italia",
+    lat:43.7678,lng:11.2556,
+    desc:"Botticellin mestariteos kuvaa jumalatar Venusta nousemassa merestä simpukankuorella. Yksi renessanssin ikonisimmista teoksista.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/1280px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+    badge:"Renessanssi"
+  },
+  {
+    title:"Lumpeenkukat",
+    artist:"Claude Monet",
+    year:"1906",
+    style:"Impressionismi",
+    value:"Arv. 80–100 milj. $",
+    technique:"Öljy kankaalle",
+    location:"Art Institute, Chicago, USA",
+    lat:41.8796,lng:-87.6237,
+    desc:"Monet maalasi yli 250 lumpeenmestariteosta Givernyn puutarhassaan. Teosten pehmeys ja valon leikki ovat impressionismin huipentuma.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg",
+    badge:"Impressionismi"
+  },
+  {
+    title:"Huuto",
+    artist:"Edvard Munch",
+    year:"1893",
+    style:"Modernismi",
+    value:"Arv. 135 milj. $ (2012 myynti)",
+    technique:"Tempera ja värikynä pahville",
+    location:"Munch-museo, Oslo, Norja",
+    lat:59.9065,lng:10.7546,
+    desc:"Munchin ekspressionistinen ikoni kuvaa ahdistunutta hahmoa kädet kasvoilla hehkuvan oranssin taivaan alla. Nykyajan ahdistuksen symboli.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+    badge:"Ikoninen"
+  },
+  {
+    title:"Tanssi",
+    artist:"Henri Matisse",
+    year:"1910",
+    style:"Modernismi",
+    value:"Korvaamaton (arv. 200+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"Eremitaaši, Pietari, Venäjä",
+    lat:59.9398,lng:30.3146,
+    desc:"Matissen rohkea fauvistinen teos viidestä tanssivasta hahmosta punaisina sinistä ja vihreää vasten. Liikkeen ja ilon symboli.",
+    img:"https://upload.wikimedia.org/wikipedia/en/a/a7/Matisse-Dance.jpg",
+    badge:"Favismi"
+  },
+  {
+    title:"Impressio: Auringonnousu",
+    artist:"Claude Monet",
+    year:"1872",
+    style:"Impressionismi",
+    value:"Korvaamaton (arv. 300+ milj. $)",
+    technique:"Öljy kankaalle",
+    location:"Musée Marmottan Monet, Pariisi, Ranska",
+    lat:48.8582,lng:2.2665,
+    desc:"Teos, joka antoi nimen kokonaiselle taidekaudelle. Monet maalasi Le Havren sataman sumuisena aamuna — impressionismin alku.",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg",
+    badge:"Historiallinen"
+  }
+];
+
+// Render gallery
+const masonryEl = document.getElementById('masonry');
+function renderGallery(filter='all'){
+  masonryEl.innerHTML='';
+  const filtered = filter==='all' ? artworks : artworks.filter(a=>a.style===filter);
+  filtered.forEach((art,i)=>{
+    const card = document.createElement('div');
+    card.className='art-card';
+    card.style.animationDelay=`${i*0.06}s`;
+    card.innerHTML=`
+      <div style="position:relative;overflow:hidden">
+        <img src="${art.img}" alt="${art.title}" loading="lazy">
+        <span class="art-card-badge">${art.badge}</span>
+      </div>
+      <div class="art-card-info">
+        <h3>${art.title}</h3>
+        <p class="artist">${art.artist}</p>
+        <p class="year">${art.year}</p>
+      </div>
+    `;
+    card.addEventListener('click',()=>openModal(art));
+    masonryEl.appendChild(card);
+  });
+}
+renderGallery();
+
+// Filters
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGallery(btn.dataset.filter);
+  });
+});
+
+// Modal
+const overlay=document.getElementById('modalOverlay');
+const modal=document.getElementById('modal');
+
+function openModal(art){
+  document.getElementById('modalImg').src=art.img;
+  document.getElementById('modalImg').alt=art.title;
+  document.getElementById('modalTitle').textContent=art.title;
+  document.getElementById('modalArtist').textContent=art.artist;
+  document.getElementById('modalYear').textContent=art.year;
+  document.getElementById('modalStyle').textContent=art.style;
+  document.getElementById('modalValue').textContent=art.value;
+  document.getElementById('modalTechnique').textContent=art.technique;
+  document.getElementById('modalDesc').textContent=art.desc;
+  document.getElementById('modalLocation').textContent=art.location;
+  document.getElementById('modalMap').src=`https://www.openstreetmap.org/export/embed.html?bbox=${art.lng-0.01}%2C${art.lat-0.008}%2C${art.lng+0.01}%2C${art.lat+0.008}&layer=mapnik&marker=${art.lat}%2C${art.lng}`;
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click',()=>{
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+});
+overlay.addEventListener('click',(e)=>{
+  if(e.target===overlay){
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+  }
+});
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape'){overlay.classList.remove('open');document.body.style.overflow='';}
+});
+</script>
+</body>
+</html>
